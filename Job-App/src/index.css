@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: 
+    radial-gradient(ellipse at top left, rgba(10, 102, 194, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at top right, rgba(5, 118, 66, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(10, 102, 194, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(10, 102, 194, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(5, 118, 66, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(10, 102, 194, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: backgroundPulse 20s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content > *:not(.loading):not(.empty-state):not(.connect-wallet):not(.home) {
+  background: linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(28, 33, 40, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(10, 102, 194, 0.1);
+  border: 1px solid rgba(48, 54, 61, 0.6);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.main-content > *:not(.loading):not(.empty-state):not(.connect-wallet):not(.home)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(10, 102, 194, 0.1), transparent);
+  transition: left 0.5s ease;
+  z-index: 0;
+}
+
+.main-content > *:not(.loading):not(.empty-state):not(.connect-wallet):not(.home):hover {
+  border-color: rgba(10, 102, 194, 0.4);
+  box-shadow: 
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 30px rgba(10, 102, 194, 0.15);
+  transform: translateY(-2px);
+}
+
+.main-content > *:not(.loading):not(.empty-state):not(.connect-wallet):not(.home):hover::before {
+  left: 100%;
+}
+
+.main-content > *:not(.loading):not(.empty-state):not(.connect-wallet):not(.home) > * {
+  position: relative;
+  z-index: 1;
+}
+
