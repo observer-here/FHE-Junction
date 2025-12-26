@@ -231,21 +231,44 @@ export default function MyApplications() {
           filteredApplications.map(({ jobId, application, job }) => (
           <div key={jobId} className="application-card">
             <div className="application-card-content">
-            <h3>{job.title}</h3>
-            <p><strong>Company:</strong> {job.companyName || 'Unknown Company'}</p>
-            <p><strong>Category:</strong> {job.primaryField === 0 ? 'Software' : job.primaryField === 1 ? 'Banking' : job.primaryField === 2 ? 'AI' : job.primaryField === 3 ? 'Web3' : 'Other'}</p>
-            {job.companyIndustry && (
-              <p><strong>Industry:</strong> {job.companyIndustry}</p>
-            )}
-            <p><strong>Status:</strong> {application.evaluated ? 'Evaluated' : 'Pending Evaluation'}</p>
-            {application.evaluated && (
-              <EligibilityDisplay 
-                eligible={application.eligible} 
-                decrypt={decrypt}
-                companyAddress={job.company}
-                readContract={readContract}
-              />
-            )}
+              <h3>{job.title}</h3>
+              
+              <div className="application-card-meta">
+                <div className="application-card-meta-item">
+                  <span className="application-card-meta-label">🏢 Company</span>
+                  <span className="application-card-meta-value">{job.companyName || 'Unknown Company'}</span>
+                </div>
+                
+                <div className="application-card-meta-item">
+                  <span className="application-card-meta-label">🎯 Field</span>
+                  <span className="application-card-meta-value">
+                    {job.primaryField === 0 ? 'Software' : job.primaryField === 1 ? 'Banking' : job.primaryField === 2 ? 'AI' : job.primaryField === 3 ? 'Web3' : 'Other'}
+                  </span>
+                </div>
+                
+                {job.companyIndustry && (
+                  <div className="application-card-meta-item">
+                    <span className="application-card-meta-label">🏭 Industry</span>
+                    <span className="application-card-meta-value">{job.companyIndustry}</span>
+                  </div>
+                )}
+                
+                <div className="application-card-meta-item">
+                  <span className="application-card-meta-label">📊 Status</span>
+                  <span className="application-card-meta-value">
+                    {application.evaluated ? '✅ Evaluated' : '⏳ Pending'}
+                  </span>
+                </div>
+              </div>
+              
+              {application.evaluated && (
+                <EligibilityDisplay 
+                  eligible={application.eligible} 
+                  decrypt={decrypt}
+                  companyAddress={job.company}
+                  readContract={readContract}
+                />
+              )}
             </div>
           </div>
           ))

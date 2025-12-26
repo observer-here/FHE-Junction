@@ -222,34 +222,61 @@ export default function Companies({ setCurrentView }: CompaniesProps) {
           {filteredCompanies.map((company) => (
             <div key={company.address} className="company-card">
               <div className="company-card-content">
-              <h3>{company.name}</h3>
-                <p>
-                  <strong>Industry:</strong> {company.industry || 'N/A'}
+                <h3>{company.name}</h3>
+                
+                <div className="company-card-meta">
+                  <div className="company-card-meta-item">
+                    <span className="company-card-meta-label">🏭 Industry</span>
+                    <span className="company-card-meta-value">{company.industry || 'N/A'}</span>
+                  </div>
+                  
                   {company.location && (
-                    <> | <strong>Location:</strong> {company.location}</>
+                    <div className="company-card-meta-item">
+                      <span className="company-card-meta-label">📍 Location</span>
+                      <span className="company-card-meta-value">{company.location}</span>
+                    </div>
                   )}
-              {company.website && (
-                    <> | <strong>Website:</strong> <a 
-                    href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {company.website}
-                    </a></>
+                  
+                  {company.website && (
+                    <div className="company-card-meta-item">
+                      <span className="company-card-meta-label">🌐 Website</span>
+                      <a 
+                        href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="company-card-meta-value"
+                        style={{ color: 'var(--primary-color)', textDecoration: 'none' }}
+                      >
+                        {company.website}
+                      </a>
+                    </div>
                   )}
-                </p>
-              {company.contactEmail && (
-                <p><strong>Contact:</strong> {company.contactEmail}</p>
-              )}
-                {company.jobCount > 0 && (
-                  <p style={{ marginTop: '0.5rem', color: 'var(--primary-color)', fontWeight: '600' }}>
-                    📋 {company.jobCount} {company.jobCount === 1 ? 'Job' : 'Jobs'}
-                  </p>
-                )}
-                <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontSize: '0.875rem', fontFamily: 'monospace' }}>
-                  {company.address}
-              </p>
+                  
+                  {company.contactEmail && (
+                    <div className="company-card-meta-item">
+                      <span className="company-card-meta-label">📧 Contact</span>
+                      <span className="company-card-meta-value">{company.contactEmail}</span>
+                    </div>
+                  )}
+                  
+                  {company.jobCount > 0 && (
+                    <div className="company-card-meta-item">
+                      <span className="company-card-meta-label">📋 Open Positions</span>
+                      <span className="company-card-meta-value" style={{ color: 'var(--primary-color)', fontWeight: '600' }}>
+                        {company.jobCount} {company.jobCount === 1 ? 'Job' : 'Jobs'}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="company-card-meta-item" style={{ gridColumn: '1 / -1' }}>
+                    <span className="company-card-meta-label">🔗 Address</span>
+                    <span className="company-card-meta-value" style={{ fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                      {company.address}
+                    </span>
+                  </div>
+                </div>
               </div>
+              
               {company.jobCount >= 1 && (
                 <button
                   onClick={() => setCurrentView(`company-jobs-${company.address}`)}

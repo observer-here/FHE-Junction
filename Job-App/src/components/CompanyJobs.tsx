@@ -332,25 +332,59 @@ export default function CompanyJobs({ companyAddress, setCurrentView }: CompanyJ
         {filteredJobs.map((job) => (
           <div key={job.id} className="job-card">
             <div className="job-card-content">
-            <h3>{job.title}</h3>
-              <p><strong>Location:</strong> {job.location} | <strong>Work Preference:</strong> {job.workPreference === 0 ? 'Remote' : job.workPreference === 1 ? 'Hybrid' : 'On-Site'} | <strong>Primary Field:</strong> {job.primaryField === 0 ? 'Software' : job.primaryField === 1 ? 'Banking' : job.primaryField === 2 ? 'AI' : job.primaryField === 3 ? 'Web3' : 'Other'}</p>
-            <p>
-              <strong>Deadline:</strong> {new Date(Number(job.applicationDeadline) * 1000).toLocaleString()}
-              {job.isDeadlineCrossed && (
-                <span style={{ color: 'var(--error-color)', marginLeft: '0.5rem', fontWeight: '600' }}>
-                  (Expired)
-                </span>
-              )}
-            </p>
-            <p style={{ marginTop: '0.5rem', color: 'var(--text-secondary)' }}>
-              <strong>Vacancies:</strong> {job.vacancyCount || 0} | <strong>Applicants:</strong> {job.applicantCount || 0}
-            </p>
-            {job.hasApplied && (
-              <p style={{ color: 'var(--primary-color)', fontWeight: '600', marginTop: '0.5rem' }}>
-                ✓ Applied {job.isEvaluated && '(Evaluated)'}
-              </p>
-            )}
+              <h3>{job.title}</h3>
+              
+              <div className="job-card-meta">
+                <div className="job-card-meta-item">
+                  <span className="job-card-meta-label">📍 Location</span>
+                  <span className="job-card-meta-value">{job.location}</span>
+                </div>
+                
+                <div className="job-card-meta-item">
+                  <span className="job-card-meta-label">💼 Work Type</span>
+                  <span className="job-card-meta-value">
+                    {job.workPreference === 0 ? 'Remote' : job.workPreference === 1 ? 'Hybrid' : 'On-Site'}
+                  </span>
+                </div>
+                
+                <div className="job-card-meta-item">
+                  <span className="job-card-meta-label">🎯 Field</span>
+                  <span className="job-card-meta-value">
+                    {job.primaryField === 0 ? 'Software' : job.primaryField === 1 ? 'Banking' : job.primaryField === 2 ? 'AI' : job.primaryField === 3 ? 'Web3' : 'Other'}
+                  </span>
+                </div>
+                
+                <div className="job-card-meta-item">
+                  <span className="job-card-meta-label">⏰ Deadline</span>
+                  <span className="job-card-meta-value">
+                    {new Date(Number(job.applicationDeadline) * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {job.isDeadlineCrossed && (
+                      <span style={{ color: 'var(--error-color)', marginLeft: '0.375rem', fontWeight: '700' }}>
+                        (Expired)
+                      </span>
+                    )}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="job-card-footer">
+                <div className="job-card-stats">
+                  <span className="job-card-stat">
+                    <strong>{job.vacancyCount || 0}</strong> Vacancies
+                  </span>
+                  <span className="job-card-stat">
+                    <strong>{job.applicantCount || 0}</strong> Applicants
+                  </span>
+                </div>
+                
+                {job.hasApplied && (
+                  <span className="job-card-status">
+                    ✓ Applied {job.isEvaluated && '(Evaluated)'}
+                  </span>
+                )}
+              </div>
             </div>
+            
             <button 
               onClick={() => handleApply(job.id)}
               disabled={job.hasApplied || job.isDeadlineCrossed}
