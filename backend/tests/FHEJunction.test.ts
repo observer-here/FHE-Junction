@@ -42,7 +42,7 @@ describe("FHEJunction", function () {
 
   describe("FHE Registration", function () {
     it("should register individual with encrypted data", async function () {
-      const encrypted = await fhevm
+    const encrypted = await fhevm
         .createEncryptedInput(contractAddress, signers.individual.address)
         .add32(120000)
         .add32(5)
@@ -50,9 +50,9 @@ describe("FHEJunction", function () {
         .add32(0)
         .add256(BigInt("1234567890123456789012345678901234567890"))
         .add32(1234567890)
-        .encrypt();
+      .encrypt();
 
-      await contract
+    await contract
         .connect(signers.individual)
         .registerIndividual(
           encrypted.handles[0],
@@ -123,18 +123,18 @@ describe("FHEJunction", function () {
           encrypted.inputProof,
           deadline,
           5
-        );
+      );
 
       const job = await contract.jobs(0);
       expect(job.exists).to.equal(true);
       expect(job.title).to.equal("Backend Engineer");
     });
-  });
+    });
 
   describe("FHE Application & Evaluation", function () {
     beforeEach(async function () {
       await contract
-        .connect(signers.company)
+      .connect(signers.company)
         .registerCompany(
           "Acme Labs",
           "Technology",
@@ -153,12 +153,12 @@ describe("FHEJunction", function () {
 
       const deadline = Math.floor(Date.now() / 1000) + 3600;
       await contract
-        .connect(signers.company)
-        .createJob(
-          "Backend Engineer",
-          "San Francisco, CA",
-          0,
-          0,
+          .connect(signers.company)
+          .createJob(
+            "Backend Engineer",
+            "San Francisco, CA",
+            0,
+            0,
           jobEncrypted.handles[0],
           jobEncrypted.handles[1],
           jobEncrypted.handles[2],
@@ -183,10 +183,10 @@ describe("FHEJunction", function () {
       await contract
         .connect(signers.individual)
         .registerIndividual(
-          encrypted.handles[0],
-          encrypted.handles[1],
-          encrypted.handles[2],
-          encrypted.handles[3],
+            encrypted.handles[0],
+            encrypted.handles[1],
+            encrypted.handles[2],
+            encrypted.handles[3],
           encrypted.handles[4],
           encrypted.handles[5],
           encrypted.inputProof
@@ -207,13 +207,13 @@ describe("FHEJunction", function () {
         .add32(120000)
         .add32(5)
         .add32(1)
-        .add32(0)
+      .add32(0)
         .add256(BigInt("1234567890123456789012345678901234567890"))
         .add32(1234567890)
         .encrypt();
 
-      await contract
-        .connect(signers.individual)
+    await contract
+      .connect(signers.individual)
         .registerIndividual(
           encrypted.handles[0],
           encrypted.handles[1],
@@ -222,7 +222,7 @@ describe("FHEJunction", function () {
           encrypted.handles[4],
           encrypted.handles[5],
           encrypted.inputProof
-        );
+      );
 
       await contract
         .connect(signers.company)
@@ -243,7 +243,7 @@ describe("FHEJunction", function () {
         .encrypt();
 
       const deadline = Math.floor(Date.now() / 1000) + 3600;
-      await contract
+    await contract
         .connect(signers.company)
         .createJob(
           "Backend Engineer",
@@ -278,13 +278,13 @@ describe("FHEJunction", function () {
         .createEncryptedInput(contractAddress, signers.individual2.address)
         .add32(200000)
         .add32(1)
-        .add32(0)
+      .add32(0)
         .add32(0)
         .add256(BigInt("9876543210987654321098765432109876543210"))
         .add32(987654321)
         .encrypt();
 
-      await contract
+    await contract
         .connect(signers.individual2)
         .registerIndividual(
           encrypted.handles[0],
@@ -304,7 +304,7 @@ describe("FHEJunction", function () {
           "https://acme.xyz",
           "hr@acme.xyz",
           "San Francisco, CA"
-        );
+      );
 
       const jobEncrypted = await fhevm
         .createEncryptedInput(contractAddress, signers.company.address)
@@ -329,7 +329,7 @@ describe("FHEJunction", function () {
           jobEncrypted.inputProof,
           deadline,
           5
-        );
+      );
 
       await contract.connect(signers.individual2).applyForJob(0);
     });
