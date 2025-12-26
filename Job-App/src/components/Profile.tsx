@@ -195,45 +195,45 @@ export default function Profile() {
     
     setDecrypting(true);
     try {
-      console.log('🔓 [Profile Decryption] Starting to decrypt profile data...');
+      console.log('🔓 [Profile Decryption] Starting to decrypt profile data (one by one)...');
       
-      // Decrypt all fields
-      const [salary, exp, edu, sexValue, emailNumber, phone] = await Promise.all([
-        decrypt(encryptedProfile.expectedSalary),
-        decrypt(encryptedProfile.experience),
-        decrypt(encryptedProfile.education),
-        decrypt(encryptedProfile.sex),
-        decrypt(encryptedProfile.contactEmail),
-        decrypt(encryptedProfile.contactPhone),
-      ]);
-      
-      console.log('✅ [Profile Decryption] All fields decrypted successfully');
-      console.log('  💰 Salary:', salary);
-      console.log('  📊 Experience:', exp);
-      console.log('  🎓 Education:', edu);
-      console.log('  👤 Sex:', sexValue);
-      console.log('  📧 Email Number:', emailNumber);
-      console.log('  📱 Phone:', phone);
-      
-      // Set decrypted values
+      console.log('🔓 [1/6] Decrypting salary...');
+      const salary = await decrypt(encryptedProfile.expectedSalary);
       setExpectedSalary(String(salary));
-      setExperience(String(exp));
-      setEducation(Number(edu) as EducationLevel);
-      setSex(Number(sexValue) as Sex);
+      console.log('✅ [1/6] Salary decrypted:', salary);
       
-      // Decode email from number
+      console.log('🔓 [2/6] Decrypting experience...');
+      const exp = await decrypt(encryptedProfile.experience);
+      setExperience(String(exp));
+      console.log('✅ [2/6] Experience decrypted:', exp);
+      
+      console.log('🔓 [3/6] Decrypting education...');
+      const edu = await decrypt(encryptedProfile.education);
+      setEducation(Number(edu) as EducationLevel);
+      console.log('✅ [3/6] Education decrypted:', edu);
+      
+      console.log('🔓 [4/6] Decrypting sex...');
+      const sexValue = await decrypt(encryptedProfile.sex);
+      setSex(Number(sexValue) as Sex);
+      console.log('✅ [4/6] Sex decrypted:', sexValue);
+      
+      console.log('🔓 [5/6] Decrypting email...');
+      const emailNumber = await decrypt(encryptedProfile.contactEmail);
       try {
         const decodedEmail = decodeNumberToEmail(BigInt(emailNumber));
         setContactEmail(decodedEmail);
-        console.log('  📧 Decoded Email:', decodedEmail);
+        console.log('✅ [5/6] Email decrypted:', decodedEmail);
       } catch (emailError) {
-        console.warn('⚠️ [Profile Decryption] Could not decode email:', emailError);
+        console.warn('⚠️ [5/6] Could not decode email:', emailError);
         setContactEmail('');
       }
       
-      // Format phone number (remove leading zeros if any)
+      console.log('🔓 [6/6] Decrypting phone...');
+      const phone = await decrypt(encryptedProfile.contactPhone);
       setContactPhone(String(phone));
+      console.log('✅ [6/6] Phone decrypted:', phone);
       
+      console.log('🎉 [Profile Decryption] All fields decrypted successfully!');
       toast.success('Profile decrypted successfully!');
     } catch (error: any) {
       console.error('❌ [Profile Decryption] Failed to decrypt profile:', error);
